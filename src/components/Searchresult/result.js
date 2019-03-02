@@ -17,13 +17,7 @@ class Results extends Component {
     }
     
     componentDidMount(){
-  //      axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+this.state.currentPage+"&page-size=10")
-  //     .then(({ data }) => {
-  //       this.setState({
-         
-  //    })
-  //  })
-  this.gitdata(1)
+     this.gitdata(1)
   }
   gitdata(page){
     axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+page+"&page-size=10")
