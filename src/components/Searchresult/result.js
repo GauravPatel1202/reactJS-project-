@@ -10,26 +10,28 @@ class Results extends Component {
             results: [],
             pageOfItemsIndex:1,
             currentPage: 1,
-           
+            pageSet:1,
+            currentnumber:1,
           };
           this.handleClick = this.handleClick.bind(this);
     }
     
     componentDidMount(){
-       axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+this.state.currentPage+"&page-size=10")
-      .then(({ data }) => {
-        this.setState({
-          query:this.props.match.params.topic,
-          results: data.response.results,    
-          pageOfItemsIndex: data.response.pages  
-     })
-   })
+  //      axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+this.state.currentPage+"&page-size=10")
+  //     .then(({ data }) => {
+  //       this.setState({
+         
+  //    })
+  //  })
+  this.gitdata(1)
   }
-  gitdata(){
-    axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+this.state.currentPage+"&page-size=10")
+  gitdata(page){
+    axios.get("http://content.guardianapis.com/search?api-key=test&q="+this.props.match.params.topic+"&showfields=thumbnail,headline&page="+page+"&page-size=10")
     .then(({ data }) => {
       this.setState({
-        results: data.response.results, 
+        query:this.props.match.params.topic,
+        results: data.response.results,    
+        pageOfItemsIndex: data.response.pages   
       });
     })
   }
@@ -38,22 +40,23 @@ class Results extends Component {
         this.setState({
           currentPage: Number(event.target.id),
          });
-         this.gitdata()
+         this.gitdata(Number(event.target.id))
       }else{
         if(event.target.id=="Prev"){
           this.setState({
             currentPage:--this.state.currentPage,
           });
-          this.gitdata()
+          this.gitdata(this.state.currentPage)
         }
         if(event.target.id=="Next"){
           this.setState({
             currentPage:++this.state.currentPage,
           });
-          this.gitdata()
+          this.gitdata(this.state.currentPage)
         }
 
       }
+      
     }
     render() {
       
@@ -85,7 +88,7 @@ class Results extends Component {
         pageNumbers.push(i);
       }
       
-      PageStageDate=pageNumbers.slice(currentPage-1,currentPage+9)
+      PageStageDate=pageNumbers.slice(currentPage-1,currentPage+10)
       PageStageDate.unshift("Prev")
       PageStageDate.push("Next")
        const renderPageNumbers = PageStageDate.map(number => {
